@@ -4,8 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordered Lists</title>
+    <style>
+        /* Remove bullet points */
+        ul {
+            list-style-type: none;
+        }
+    
+        /* Change bullet style */
+        ul.custom {
+            list-style-type: square;
+        }
+    </style>
 </head>
 <body>
-    
+    <ol>
+        <li>First step: Preparation</li>
+        <li>Second step: Execution</li>
+        <li>Third step: Verification</li>
+    </ol>
+
+    <!--
+    Best Practices for Accessibility and Semantics
+
+    To ensure your guides remain accessible and semantically correct, follow these guidelines:
+
+    Use semantics over style: Do not use <div> or <p> elements with CSS counters to mimic a list if the content is truly sequential. Use the native <ol> element so screen readers interpret the structure correctly.
+    Avoid non-list content: Only <li> elements should be direct children of an <ol>. Do not place text nodes or other elements directly inside the <ol> tag.
+    Meaningful sequences: Only use ordered lists when the order actually matters. If the items are interchangeable, use an unordered list (<ul>) instead.
+    Style with CSS: While attributes like type are available, it is often better to control list styling using CSS list-style-type to maintain a separation of concerns between structure and presentation.
+    Keep it flat where possible: Avoid nesting lists more than two or three levels deep, as this can become difficult for users to follow, especially on mobile devices.
+    Descriptive items: Ensure each <li> is concise but descriptive to provide context for the step being taken.
+    Avoid empty lists: An ordered list should contain at least one item; an empty list provides no value to the user.
+    Maintain order: Do not use the reversed attribute purely for stylistic reasons; ensure the content logically warrants a descending sequence.
+
+    -->
+    ht
 </body>
 </html>
