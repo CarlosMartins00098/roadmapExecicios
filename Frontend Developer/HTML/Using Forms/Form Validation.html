@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Validation</title>
+    <!--
     <style>
     body {
   font: 1em sans-serif;
@@ -49,8 +50,64 @@ input:focus:invalid {
   box-shadow: none;
 }
     </style>
+    -->
+    <style>
+      body {
+        font: 1em sans-serif;
+        padding: 0%;
+        margin: 0%;
+      }
+
+      form{
+        max-width: 200px;
+      }
+      p * {
+        display: block;
+      }
+
+      input[type="email"]{
+        -webkit-appearance: none;
+        width: 100%;
+        border: 1px solid #333;
+        margin: 0;
+
+        font-family: inherit;
+        font-size: 90%;
+
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      input:invalid {
+        border-color: #900;
+        background-color: #fdd;
+      }
+
+      input:focus:invalid {
+        outline: none;
+      }
+
+      .error {
+        width: 100%;
+        padding: 0;
+
+        font-size: 80%;
+        color: white;
+        background-color: #900;
+        border-radius: 0 0 5px 5px;
+
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      error.active {
+        padding: 0.3em;
+      }
+
+    </style>
 </head>
 <body>
+  <!--
     <form>
   <p>
     <fieldset>
@@ -61,11 +118,11 @@ input:focus:invalid {
   </p>
   <p>
     <label for="n1">Quantos anos você tem?</label>
-    <!-- O atributo pattern pode atuar como um substituto para navegadores que
+    <!- O atributo pattern pode atuar como um substituto para navegadores que
          não implemente o tipo de entrada de número, mas dê suporte ao atributo pattern.
          Observe que os navegadores que suportam o atributo pattern o tornarão
          falha silenciosamente quando usado com um campo numérico.
-         Seu uso aqui atua apenas como um fallback -->
+         Seu uso aqui atua apenas como um fallback ->
     <input type="number" min="12" max="120" step="1" id="n1" name="age"
            pattern="\d+">
   </p>
@@ -95,5 +152,76 @@ input:focus:invalid {
   </p>
 </form>
     
+-->
+<!--
+
+<form>
+  <label for="mail"> Gostoaria que você me enviasse um e-mail</label>
+  <input type="email" id="mail" name="mail">
+  <button>Enviar</button>
+</form>
+
+<script>
+  var email = document.getElementById("mail");
+  email.addEventListener("input", function (event) {
+    if (email.validity.typeMismatch) {
+      email.setCustomValidity("Espero um e-mail, querido!");
+    } else {
+      email.setCustomValidity("");
+    }
+  });
+</script>
+-->
+
+<form novalidate>
+  <p>
+    <label for="mail">
+      <span>Por favor, insira um endereço de e-mail:</span>
+        <input type="email" id="mail" name="mail">
+      <span class="error" aria-live="polite"></span>
+    </label>
+  </p>
+  <button>Enviar</button>
+</form>
+
+<script>
+  // Existem muitas maneiras de escolher um nó DOM; aqui temos o próprio formulário e o e-mail
+// caixa de entrada, bem como o elemento span no qual colocaremos a mensagem de erro.
+
+var form = document.getElementsByTagName("form")[0];
+var email = document.getElementById("mail");
+var error = document.querySelector(".error");
+
+email.addEventListener(
+  "input",
+  function (event) {
+    // Cada vez que o usuário digita algo, verificamos se o
+    // campo de email é válido.
+    if (email.validity.valid) {
+      // Caso haja uma mensagem de erro visível, se o campo
+      // é válido, removemos a mensagem de erro.
+      error.innerHTML = ""; // Reinicia o conteúdo da mensagem
+      error.className = "error"; // Redefinir o estado visual da mensagem
+    }
+  },
+  false,
+);
+form.addEventListener(
+  "submit",
+  function (event) {
+    // Cada vez que o usuário tenta enviar os dados, verificamos
+    // se o campo de email for válido.
+    if (!email.validity.valid) {
+      // Se o campo não for válido, exibimos um personalizado
+      // mensagem de erro.
+      error.innerHTML = "Espero um e-mail, querida!";
+      error.className = "error active";
+      // E evitamos que o formulário seja enviado cancelando o evento
+      event.preventDefault();
+    }
+  },
+  false,
+);
+</script>
 </body>
 </html>
