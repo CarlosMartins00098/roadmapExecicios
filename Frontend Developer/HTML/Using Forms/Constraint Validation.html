@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>constraint Validation</title>
+</head>
+<body>
+    <h1>Validação de formulário: Melhorando a experiência do usuário com a API de validação de restrição</h1>
+    <p>A validação de formulário é uma pedra angular do desenvolvimento web amigável. Enquanto o HTML5 fornece validação básica de formulário, a API de Validação de Restrições oferece ferramentas avançadas para ir além das limitações da validação padrão do navegador. Com essa API, os desenvolvedores ganham controle sobre mensagens personalizadas, tempo, tratamento de erros e muito mais, tudo sem depender de bibliotecas extras ou verificações de back-end.</p>
+    <p>Este guia abrange tudo o que você precisa saber para aproveitar ao máximo a API de validação de restrição e formulários de compilação robustos, flexíveis e fáceis de usar.
+</p>
+
+<form>
+  <label for="postal-code">Postal Code: </label>
+  <input type="text" id="postal-code" />
+  <label for="country">Country: </label>
+  <select id="country">
+    <option value="ch">Switzerland</option>
+    <option value="fr">France</option>
+    <option value="de">Germany</option>
+    <option value="nl">The Netherlands</option>
+  </select>
+  <input type="submit" value="Validate" />
+</form>
+
+<script>
+    const countrySelect = document.getElementById("country");
+    const postalCodeField = document.getElementById("postal-code");
+
+    function checkPostalCode() {
+        // For each country, defines the pattern that the postal code has to follow
+        const constraints = {
+            ch: [
+                "^(CH-)?\\d{4}$",
+                "Swiss postal codes must have exactly 4 digits: e.g. CH-1950 or 1950",
+            ],
+            fr: [
+                "^(F-)?\\d{5}$",
+                "French postal codes must have exactly 5 digits: e.g. F-75012 or 75012",
+            ],
+            de: [
+                "^(D-)?\\d{5}$",
+                "German postal codes must have exactly 5 digits: e.g. D-12345 or 12345",
+            ],
+            nl: [
+                "^(NL-)?\\d{4}\\s*([A-RT-Z][A-Z]|S[BCE-RT-Z])$",
+                "Dutch postal codes must have exactly 4 digits, followed by 2 letters except SA, SD and SS",
+            ],
+        };
+
+        // Read the country id
+        const country = countrySelect.value;
+
+        // Build the constraint checker
+        const constraint = new RegExp(constraints[country][0], "");
+        console.log(constraint);
+
+        // Check it!
+        if (constraint.test(postalCodeField.value)) {
+            // The postal code follows the constraint, we use the ConstraintAPI to tell it
+            postalCodeField.setCustomValidity("");
+        } else {
+            // The postal code doesn't follow the constraint, we use the ConstraintAPI to
+            // give a message about the format required for this country
+            postalCodeField.setCustomValidity(constraints[country][1]);
+        }
+    }
+    countrySelect.addEventListener("change", checkPostalCode);
+    postalCodeField.addEventListener("input", checkPostalCode);
+</script>
+    
+</body>
+</html>
